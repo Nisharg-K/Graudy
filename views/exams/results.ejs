@@ -1,0 +1,176 @@
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/css/styles.css">
+</head><html lang="en" data-theme="light">
+
+<div class="content-header">
+  <h2><%= exam.name %> Results</h2>
+  <div class="action-buttons">
+    <a href="/exams" class="btn btn-secondary">
+      <i class="fas fa-arrow-left"></i> Back to Exams
+    </a>
+  </div>
+</div>
+
+<div class="exam-info card-animation">
+  <div class="info-row">
+    <div class="info-item">
+      <span class="info-label">Course:</span>
+      <span class="info-value"><%= exam.course.courseName %> (<%= exam.course.courseCode %>)</span>
+    </div>
+    <div class="info-item">
+      <span class="info-label">Date:</span>
+      <span class="info-value"><%= new Date(exam.date).toLocaleDateString() %></span>
+    </div>
+    <div class="info-item">
+      <span class="info-label">Total Marks:</span>
+      <span class="info-value"><%= exam.totalMarks %></span>
+    </div>
+  </div>
+</div>
+
+<div class="results-container">
+  <div class="results-list card-animation">
+    <h3>Student Results</h3>
+    
+    <% if (results.length === 0) { %>
+      <p class="no-results">No results have been recorded yet.</p>
+    <% } else { %>
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Student ID</th>
+              <th>Name</th>
+              <th>Marks</th>
+              <th>Percentage</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% results.forEach(result => { %>
+              <tr class="table-row-animation">
+                <td><%= result.student.studentId %></td>
+                <td><%= result.student.firstName %> <%= result.student.lastName %></td>
+                <td><%= result.marksObtained %>/<%= exam.totalMarks %></td>
+                <td><%= ((result.marksObtained / exam.totalMarks) * 100).toFixed(2) %>%</td>
+                <td class="actions">
+                  <a href="/exams/results/edit/<%= result._id %>" class="btn btn-sm btn-info">
+                    <i class="fas fa-edit"></i>
+                  </a>
+                </td>
+              </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
+    <% } %>
+  </div>
+  
+  <div class="add-result card-animation">
+    <h3>Add New Result</h3>
+    
+    <% if (studentsWithoutResults.length === 0) { %>
+      <p class="no-results">All students have results recorded.</p>
+    <% } else { %>
+      <form action="/exams/<%= exam._id %>/results/add" method="POST">
+        <div class="form-group">
+          <label for="studentId">Select Student*</label>
+          <select id="studentId" name="studentId" required>
+            <option value="">Choose Student</option>
+            <% studentsWithoutResults.forEach(student => { %>
+              <option value="<%= student._id %>"><%= student.firstName %> <%= student.lastName %> (<%= student.studentId %>)</option>
+            <% }); %>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="marksObtained">Marks Obtained*</label>
+          <input type="number" id="marksObtained" name="marksObtained" min="0" max="<%= exam.totalMarks %>" required>
+          <small class="form-text">Out of <%= exam.totalMarks %> marks</small>
+        </div>
+        
+        <div class="form-group">
+          <label for="remarks">Remarks</label>
+          <textarea id="remarks" name="remarks" rows="2"></textarea>
+        </div>
+        
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">
+            <i class="fas fa-save"></i> Save Result
+          </button>
+        </div>
+      </form>
+    <% } %>
+  </div>
+</div>
+
+<style>
+  .exam-info {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background-color: var(--card-bg);
+    border-radius: 0.5rem;
+    box-shadow: var(--shadow);
+  }
+  
+  .info-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+  
+  .info-item {
+    flex: 1;
+    min-width: 200px;
+  }
+  
+  .info-label {
+    font-weight: 500;
+    color: var(--muted-color);
+    display: block;
+    margin-bottom: 0.25rem;
+  }
+  
+  .info-value {
+    font-size: 1.1rem;
+  }
+  
+  .results-container {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1.5rem;
+  }
+  
+  .results-list,
+  .add-result {
+    background-color: var(--card-bg);
+    border-radius: 0.5rem;
+    box-shadow: var(--shadow);
+    padding: 1.5rem;
+  }
+  
+  .results-list h3,
+  .add-result h3 {
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.5rem;
+  }
+  
+  .no-results {
+    color: var(--muted-color);
+    font-style: italic;
+  }
+  
+  .form-text {
+    color: var(--muted-color);
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+  }
+  
+  @media (max-width: 992px) {
+    .results-container {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

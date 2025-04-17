@@ -1,0 +1,50 @@
+
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Management System</title>
+  <html lang="en" data-theme="light">
+
+</head>
+<body>
+  <div class="app-container">
+    <% if (typeof userId !== 'undefined') { %>
+      <aside class="sidebar">
+        <div class="sidebar-header">
+          <h2>SMS</h2>
+          <button id="sidebar-toggle" class="sidebar-toggle"><i class="fas fa-bars"></i></button>
+        </div>
+        <nav class="sidebar-nav">
+          <ul>
+            <li><a href="/dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+            <li><a href="/students"><i class="fas fa-user-graduate"></i> Students</a></li>
+            <li><a href="/courses"><i class="fas fa-book"></i> Courses</a></li>
+            <li><a href="/registrations"><i class="fas fa-clipboard-list"></i> Registrations</a></li>
+            <li><a href="/fees"><i class="fas fa-money-bill-wave"></i> Fees</a></li>
+            <li><a href="/attendance"><i class="fas fa-clipboard-check"></i> Attendance</a></li>
+            <li><a href="/exams"><i class="fas fa-file-alt"></i> Exams</a></li>
+            <li><a href="/settings"><i class="fas fa-cog"></i> Settings</a></li>
+            <li><a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+          </ul>
+        </nav>
+      </aside>
+    <% } %>
+    
+    <main class="main-content">
+      <% if (typeof userId !== 'undefined') { %>
+        <header class="header">
+          <h1><%= typeof pageTitle !== 'undefined' ? pageTitle : 'Student Management System' %></h1>
+        </header>
+      <% } %>
+      
+      <div class="content">
+        <%- body %>
+      </div>
+    </main>
+  </div>
+  
+  <script src="/js/main.js"></script>
+</body>
+</html>

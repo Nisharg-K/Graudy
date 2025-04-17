@@ -1,0 +1,48 @@
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/css/styles.css">
+</head><html lang="en" data-theme="light">
+
+<div class="content-header">
+  <h2>Course Registrations</h2>
+  <div class="action-buttons">
+    <a href="/registrations/add" class="btn btn-primary">
+      <i class="fas fa-plus"></i> Add Registration
+    </a>
+  </div>
+</div>
+
+<div class="table-container">
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Student</th>
+        <th>Course</th>
+        <th>Registered On</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if (registrations.length === 0) { %>
+        <tr>
+          <td colspan="4" class="text-center">No registrations found</td>
+        </tr>
+      <% } else { %>
+        <% registrations.forEach(registration => { %>
+          <tr class="table-row-animation">
+            <td><%= registration.student.firstName %> <%= registration.student.lastName %> (<%= registration.student.studentId %>)</td>
+            <td><%= registration.course.courseName %> (<%= registration.course.courseCode %>)</td>
+            <td><%= new Date(registration.registeredOn).toLocaleDateString() %></td>
+            <td class="actions">
+              <form action="/registrations/delete/<%= registration._id %>" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this registration?');">
+                <button type="submit" class="btn btn-sm btn-danger">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </form>
+            </td>
+          </tr>
+        <% }); %>
+      <% } %>
+    </tbody>
+  </table>
+</div>

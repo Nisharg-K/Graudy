@@ -1,0 +1,86 @@
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/css/styles.css">
+</head><html lang="en" data-theme="light">
+
+<div class="content-header">
+  <h2>Add New Student</h2>
+  <div class="action-buttons">
+    <a href="/students" class="btn btn-secondary">
+      <i class="fas fa-arrow-left"></i> Back to List
+    </a>
+  </div>
+</div>
+
+<div class="form-container card-animation">
+  <% if (typeof error !== 'undefined') { %>
+    <div class="alert alert-danger"><%= error %></div>
+  <% } %>
+  
+  <form action="/students/add" method="POST">
+    <div class="form-row">
+      <div class="form-group">
+        <label for="studentId">Student ID*</label>
+        <input type="text" id="studentId" name="studentId" required value="<%= typeof formData !== 'undefined' ? formData.studentId : '' %>">
+      </div>
+      
+      <div class="form-group">
+        <label for="firstName">First Name*</label>
+        <input type="text" id="firstName" name="firstName" required value="<%= typeof formData !== 'undefined' ? formData.firstName : '' %>">
+      </div>
+      
+      <div class="form-group">
+        <label for="lastName">Last Name*</label>
+        <input type="text" id="lastName" name="lastName" required value="<%= typeof formData !== 'undefined' ? formData.lastName : '' %>">
+      </div>
+    </div>
+    
+    <div class="form-row">
+      <div class="form-group">
+        <label for="email">Email*</label>
+        <input type="email" id="email" name="email" required value="<%= typeof formData !== 'undefined' ? formData.email : '' %>">
+      </div>
+      
+      <div class="form-group">
+        <label for="phone">Phone</label>
+        <input type="tel" id="phone" name="phone" value="<%= typeof formData !== 'undefined' ? formData.phone : '' %>">
+      </div>
+    </div>
+    
+    <div class="form-row">
+      <div class="form-group">
+        <label for="dateOfBirth">Date of Birth</label>
+        <input type="date" id="dateOfBirth" name="dateOfBirth" value="<%= typeof formData !== 'undefined' ? formData.dateOfBirth : '' %>">
+      </div>
+      
+      <div class="form-group">
+        <label for="gender">Gender</label>
+        <select id="gender" name="gender">
+          <option value="">Select Gender</option>
+          <option value="Male" <%= typeof formData !== 'undefined' && formData.gender === 'Male' ? 'selected' : '' %>>Male</option>
+          <option value="Female" <%= typeof formData !== 'undefined' && formData.gender === 'Female' ? 'selected' : '' %>>Female</option>
+          <option value="Other" <%= typeof formData !== 'undefined' && formData.gender === 'Other' ? 'selected' : '' %>>Other</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label for="class">Class*</label>
+        <input type="text" id="class" name="class" required value="<%= typeof formData !== 'undefined' ? formData.class : '' %>">
+      </div>
+    </div>
+    
+    <div class="form-group">
+      <label for="address">Address</label>
+      <textarea id="address" name="address" rows="3"><%= typeof formData !== 'undefined' ? formData.address : '' %></textarea>
+    </div>
+    
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary">
+        <i class="fas fa-save"></i> Save Student
+      </button>
+      <button type="reset" class="btn btn-secondary">
+        <i class="fas fa-undo"></i> Reset
+      </button>
+    </div>
+  </form>
+</div>

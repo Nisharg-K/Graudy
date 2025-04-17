@@ -1,0 +1,66 @@
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/css/styles.css">
+</head><html lang="en" data-theme="light">
+
+<div class="content-header">
+  <h2>Settings</h2>
+</div>
+
+
+  
+  
+  <div class="settings-card card-animation">
+    <h3>System Information</h3>
+    
+    <div class="system-info">
+      <div class="info-item">
+        <span class="info-label">Version:</span>
+        <span class="info-value">1.0.0</span>
+      </div>
+      
+      <div class="info-item">
+        <span class="info-label">Last Updated:</span>
+        <span class="info-value">April 11, 2025</span>
+      </div>
+      
+      <div class="info-item">
+        <span class="info-label">Server:</span>
+        <span class="info-value">Node.js + Express</span>
+      </div>
+      
+      <div class="info-item">
+        <span class="info-label">Database:</span>
+        <span class="info-value">MongoDB</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeLabel = document.getElementById('theme-label');
+    const rootElement = document.documentElement;
+    
+    // Check for saved theme preference
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    rootElement.setAttribute('data-theme', savedTheme);
+    themeToggle.checked = savedTheme === 'dark';
+    themeLabel.textContent = savedTheme === 'dark' ? 'Dark Mode' : 'Light Mode';
+    
+    // Theme toggle handler
+    themeToggle.addEventListener('change', function() {
+      const newTheme = this.checked ? 'dark' : 'light';
+      rootElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+      themeLabel.textContent = newTheme === 'dark' ? 'Dark Mode' : 'Light Mode';
+      
+      // Add animation for theme change
+      document.body.classList.add('theme-transition');
+      setTimeout(() => {
+        document.body.classList.remove('theme-transition');
+      }, 1000);
+    });
+  });
+</script>

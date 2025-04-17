@@ -1,0 +1,85 @@
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/css/styles.css">
+</head><html lang="en" data-theme="light">
+
+<div class="content-header">
+  <h2>Fee Management</h2>
+  <div class="action-buttons">
+    <a href="/fees/add" class="btn btn-primary">
+      <i class="fas fa-plus"></i> Add Fee Record
+    </a>
+  </div>
+</div>
+
+<div class="table-container">
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Student</th>
+        <th>Amount</th>
+        <th>Payment Date</th>
+        <th>Payment Method</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if (fees.length === 0) { %>
+        <tr>
+          <td colspan="6" class="text-center">No fee records found</td>
+        </tr>
+      <% } else { %>
+        <% fees.forEach(fee => { %>
+          <tr class="table-row-animation">
+            <td><%= fee.student.firstName %> <%= fee.student.lastName %> (<%= fee.student.studentId %>)</td>
+            <td>$<%= fee.amount.toFixed(2) %></td>
+            <td><%= new Date(fee.paymentDate).toLocaleDateString() %></td>
+            <td><%= fee.paymentMethod %></td>
+            <td>
+              <% if (fee.status === 'paid') { %>
+                <span class="badge badge-success">Paid</span>
+              <% } else if (fee.status === 'pending') { %>
+                <span class="badge badge-warning">Pending</span>
+              <% } else { %>
+                <span class="badge badge-danger">Overdue</span>
+              <% } %>
+            </td>
+            <td class="actions">
+              <a href="/fees/edit/<%= fee._id %>" class="btn btn-sm btn-info">
+                <i class="fas fa-edit"></i>
+              </a>
+              <a href="/fees/receipt/<%= fee._id %>" class="btn btn-sm btn-secondary">
+                <i class="fas fa-receipt"></i>
+              </a>
+            </td>
+          </tr>
+        <% }); %>
+      <% } %>
+    </tbody>
+  </table>
+</div>
+
+<style>
+  .badge {
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+  
+  .badge-success {
+    background-color: rgba(16, 185, 129, 0.1);
+    color: #10b981;
+  }
+  
+  .badge-warning {
+    background-color: rgba(245, 158, 11, 0.1);
+    color: #f59e0b;
+  }
+  
+  .badge-danger {
+    background-color: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+  }
+</style>

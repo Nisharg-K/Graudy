@@ -1,0 +1,54 @@
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/css/styles.css">
+</head><html lang="en" data-theme="light">
+
+
+<div class="content-header">
+  <h2>Exam Management</h2>
+  <div class="action-buttons">
+    <a href="/exams/add" class="btn btn-primary">
+      <i class="fas fa-plus"></i> Add Exam
+    </a>
+  </div>
+</div>
+
+<div class="table-container">
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Course</th>
+        <th>Date</th>
+        <th>Total Marks</th>
+        <th>Students Appeared</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if (exams.length === 0) { %>
+        <tr>
+          <td colspan="6" class="text-center">No exams found</td>
+        </tr>
+      <% } else { %>
+        <% exams.forEach(exam => { %>
+          <tr class="table-row-animation">
+            <td><%= exam.name %></td>
+            <td><%= exam.course.courseName %> (<%= exam.course.courseCode %>)</td>
+            <td><%= new Date(exam.date).toLocaleDateString() %></td>
+            <td><%= exam.totalMarks %></td>
+            <td><%= exam.studentsAppeared %></td>
+            <td class="actions">
+              <a href="/exams/<%= exam._id %>/results" class="btn btn-sm btn-info">
+                <i class="fas fa-clipboard-list"></i> Results
+              </a>
+              <a href="/exams/edit/<%= exam._id %>" class="btn btn-sm btn-secondary">
+                <i class="fas fa-edit"></i>
+              </a>
+            </td>
+          </tr>
+        <% }); %>
+      <% } %>
+    </tbody>
+  </table>
+</div>

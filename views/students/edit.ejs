@@ -1,0 +1,83 @@
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/css/styles.css">
+</head><html lang="en" data-theme="light">
+
+<div class="content-header">
+  <h2>Edit Student</h2>
+  <div class="action-buttons">
+    <a href="/students" class="btn btn-secondary">
+      <i class="fas fa-arrow-left"></i> Back to List
+    </a>
+  </div>
+</div>
+
+<div class="form-container card-animation">
+  <% if (typeof error !== 'undefined') { %>
+    <div class="alert alert-danger"><%= error %></div>
+  <% } %>
+  
+  <form action="/students/edit/<%= student._id %>" method="POST">
+    <div class="form-row">
+      <div class="form-group">
+        <label for="studentId">Student ID</label>
+        <input type="text" id="studentId" name="studentId" value="<%= student.studentId %>" disabled>
+      </div>
+      
+      <div class="form-group">
+        <label for="firstName">First Name*</label>
+        <input type="text" id="firstName" name="firstName" required value="<%= student.firstName %>">
+      </div>
+      
+      <div class="form-group">
+        <label for="lastName">Last Name*</label>
+        <input type="text" id="lastName" name="lastName" required value="<%= student.lastName %>">
+      </div>
+    </div>
+    
+    <div class="form-row">
+      <div class="form-group">
+        <label for="email">Email*</label>
+        <input type="email" id="email" name="email" required value="<%= student.email %>">
+      </div>
+      
+      <div class="form-group">
+        <label for="phone">Phone</label>
+        <input type="tel" id="phone" name="phone" value="<%= student.phone %>">
+      </div>
+    </div>
+    
+    <div class="form-row">
+      <div class="form-group">
+        <label for="dateOfBirth">Date of Birth</label>
+        <input type="date" id="dateOfBirth" name="dateOfBirth" value="<%= student.dateOfBirth ? student.dateOfBirth.toISOString().split('T')[0] : '' %>">
+      </div>
+      
+      <div class="form-group">
+        <label for="gender">Gender</label>
+        <select id="gender" name="gender">
+          <option value="">Select Gender</option>
+          <option value="Male" <%= student.gender === 'Male' ? 'selected' : '' %>>Male</option>
+          <option value="Female" <%= student.gender === 'Female' ? 'selected' : '' %>>Female</option>
+          <option value="Other" <%= student.gender === 'Other' ? 'selected' : '' %>>Other</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label for="class">Class*</label>
+        <input type="text" id="class" name="class" required value="<%= student.class %>">
+      </div>
+    </div>
+    
+    <div class="form-group">
+      <label for="address">Address</label>
+      <textarea id="address" name="address" rows="3"><%= student.address %></textarea>
+    </div>
+    
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary">
+        <i class="fas fa-save"></i> Update Student
+      </button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,101 @@
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/css/styles.css">
+</head><html lang="en" data-theme="light">
+
+<div class="content-header">
+  <h2>Attendance Tracking</h2>
+</div>
+
+<div class="filter-container card-animation">
+  <form action="/attendance" method="GET" class="filter-form">
+    <div class="form-row">
+      <div class="form-group">
+        <label for="course">Select Course</label>
+        <select id="course" name="course" onchange="this.form.submit()">
+          <% courses.forEach(course => { %>
+            <option value="<%= course._id %>" <%= selectedCourse && selectedCourse.toString() === course._id.toString() ? 'selected' : '' %>>
+              <%= course.courseName %> (<%= course.courseCode %>)
+            </option>
+          <% }); %>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label for="date">Select Date</label>
+        <input type="date" id="date" name="date" value="<%= selectedDate %>" onchange="this.form.submit()">
+      </div>
+    </div>
+  </form>
+</div>
+
+<% if (students.length > 0) { %>
+  <form action="/attendance/mark" method="POST">
+    <input type="hidden" name="courseId" value="<%= selectedCourse %>">
+    <input type="hidden" name="date" value="<%= selectedDate %>">
+    
+    <div class="table-container">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Student ID</th>
+            <th>Name</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% students.forEach(student => { %>
+            <tr class="table-row-animation">
+              <td><%= student.studentId %></td>
+              <td><%= student.firstName %> <%= student.lastName %></td>
+              <td>
+                <select name="attendance[<%= student._id %>]">
+                  <option value="present" <%= attendanceData[student._id] === 'present' ? 'selected' : '' %>>Present</option>
+                  <option value="absent" <%= attendanceData[student._id] === 'absent' ? 'selected' : '' %>>Absent</option>
+                  <option value="late" <%= attendanceData[student._id] === 'late' ? 'selected' : '' %>>Late</option>
+                </select>
+              </td>
+            </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </div>
+    
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary">
+        <i class="fas fa-save"></i> Save Attendance
+      </button>
+    </div>
+  </form>
+<% } else if (courses.length === 0) { %>
+  <div class="alert alert-info">
+    No courses available. Please add courses first.
+  </div>
+<% } else { %>
+  <div class="alert alert-info">
+    No students found for this course.
+  </div>
+<% } %>
+
+<style>
+  .filter-container {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background-color: var(--card-bg);
+    border-radius: 0.5rem;
+    box-shadow: var(--shadow);
+  }
+  
+  .filter-form .form-row {
+    align-items: flex-end;
+  }
+  
+  .alert-info {
+    background-color: rgba(59, 130, 246, 0.1);
+    color: #3b82f6;
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    padding: 0.75rem 1rem;
+    border-radius: 0.375rem;
+    margin-bottom: 1rem;
+  }
+</style>
